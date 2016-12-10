@@ -1,5 +1,6 @@
 from json import load
 import os
+import subprocess
 
 from pyfcm import FCMNotification
 from slackclient import SlackClient
@@ -37,6 +38,16 @@ def dnd_slack(config):
     sc.api_call("dnd.setSnooze", num_minutes=DND_SECS / 60)
 
 
+def open_brain_fm_focus(config):
+    if not config.get('BRAIN_FM'):
+        return
+
+    devnull = open(os.devnull, 'w')
+
+    subprocess.call(['gnome-open', 'https://www.brain.fm/app#!/player/35'], stdout=devnull, stderr=subprocess.STDOUT)
+
+
 if __name__ == '__main__':
     dnd_phone(CONFIG)
     dnd_slack(CONFIG)
+    open_brain_fm_focus(CONFIG)
