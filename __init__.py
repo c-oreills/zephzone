@@ -1,9 +1,13 @@
 from json import load
+import os
 
 from pyfcm import FCMNotification
 
 
-config = load(open('~/.zephzone'))
+CONFIG_PATH = '~/.zephzone'
+CONFIG_PATH = os.path.expanduser(CONFIG_PATH)
+
+config = load(open(CONFIG_PATH))
 
 push_service = FCMNotification(api_key=config["ANDROID_API_KEY"])
 
